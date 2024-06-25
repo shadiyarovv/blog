@@ -1,6 +1,10 @@
+import { getCurrentUser } from "@/lib/session";
 import Link from "next/link";
+import LogoutButton from "./LogoutButton";
 
-const Header = () => {
+const Header = async () => {
+  const user = await getCurrentUser();
+
   return (
     <header className="bg-blue-500 p-4">
       <nav className="flex justify-between items-center max-w-4xl mx-auto text-white">
@@ -9,10 +13,14 @@ const Header = () => {
         </Link>
         <ul className="flex gap-4">
           <li>
-            <Link href="/api/auth/signin">Login</Link>
+            <Link href="/blogs">Blogs</Link>
           </li>
           <li>
-            <Link href="/blogs">Blogs</Link>
+            {user?.name ? (
+              <LogoutButton />
+            ) : (
+              <Link href="/api/auth/signin">Login</Link>
+            )}
           </li>
         </ul>
       </nav>
