@@ -1,6 +1,7 @@
 import Comments from "@/components/Comments";
 import NewCommentForm from "@/components/NewCommentForm";
 import prisma from "@/lib/db";
+import Link from "next/link";
 import { FC } from "react";
 
 interface PostDetailsPageProps {
@@ -21,6 +22,7 @@ const PostDetailsPage: FC<PostDetailsPageProps> = async ({ params }) => {
 
   return (
     <div className="max-w-4xl mx-auto py-8">
+      <Link href={`/blogs/${params.id}/edit`}>Edit</Link>
       <h1 className="text-3xl font-bold">{postDetails?.title}</h1>
       <p>Written by: {postDetails?.author?.name}</p>
       <div className="my-4">

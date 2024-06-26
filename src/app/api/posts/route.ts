@@ -30,3 +30,36 @@ export async function POST(req: Request) {
     );
   }
 }
+
+export async function PUT(req: Request) {
+  const user = await getCurrentUser();
+
+  try {
+    if (!user?.email) {
+      return NextResponse.json(
+        {
+          message: "Not Authenticated!",
+        },
+        { status: 500 }
+      );
+    }
+
+    const { title, content, postId } = await req.json();
+    const updatedPost = await prisma.post.update({
+      where: {
+        id: postId,
+      },
+      data: {
+        title,
+        content,
+      },
+    });
+
+    return NextResponse.json({ updatedPost }, { status: 200 });
+  } catch (error) {
+    return NextResponse.json(
+      { message: "Something went wrong!" },
+      { status: 500 }
+    );
+  }
+}
